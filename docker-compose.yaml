@@ -8,3 +8,5 @@ services:
     image: website:latest
     ports:
       - "3000:3000"
+# CORS -back, AXIOS - front dependencies
+# get working
