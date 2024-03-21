@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AgrobotEmailIcon, AgrobotFacebookIcon, AgrobotInstagramIcon,AgrobotLinkedInIcon, AgrobotLocationIcon } from "../../assets";
 import { APPLICATION_LINK } from "../../constant/recruitment";
 import { MdChevronRight } from "react-icons/md";
+import axios from 'axios';
 
 function MailForm(props) {
   const [name, setName] = useState("");
@@ -10,7 +11,24 @@ function MailForm(props) {
   const [message, setMessage] = useState("");
   const { isMobile } = props;
 
-  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Make HTTP POST request to your backend endpoint
+      const response = await axios.post('http://localhost:2000/mail', {
+        name,
+        email,
+        subject,
+        message
+      });
+      console.log(response.data); // Log response from backend
+      // Handle success (e.g., show confirmation message)
+    } catch (error) {
+      console.error('Error sending mail:', error);
+      // Handle error (e.g., display error message to user)
+    }
+  };
 
   if (!isMobile) {
     return (
@@ -25,7 +43,7 @@ function MailForm(props) {
                 Message Us
               </h1>
 
-              <form className="flex flex-col items-left justify-center w-full h-full">
+              <form className="flex flex-col items-left justify-center w-full h-full" onSubmit={handleSubmit}>
                 <input
                   type="text"
                   placeholder="Name"
@@ -55,7 +73,7 @@ function MailForm(props) {
                 />
                 <button
               className="mx-auto bg-[#88BE22] text-white px-4 py-2 rounded-[14px] flex items-center justify-center font-bold my-4 hover:bg-green-500 transition-all duration-300"
-              onClick={() => window.open(APPLICATION_LINK, "_blank")}
+              
             >
               Send <MdChevronRight />
             </button>
